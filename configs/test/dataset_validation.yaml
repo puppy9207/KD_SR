@@ -1,0 +1,11 @@
+dataset:
+  train_dir: "/workspace/VSR_ESP/training.csv"
+  scale: 2
+  batch_size: 16
+  patch_size : 128
+  yuv: false
+  sharpen:
+    add: false
+    weight: 0.25 # default 1
+    radius: 50
+    threshold: 10

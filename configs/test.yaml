@@ -1,0 +1,7 @@
+hydra:
+  run:
+    dir: ./outputs/test
+
+defaults:
+  - _self_
+  - test: default #video

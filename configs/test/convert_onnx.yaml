@@ -1,0 +1,9 @@
+weights_file: "/workspace/VSR_ESP/outputs/train/2022-03-16/10-37-00/PSNR_cpkt/010000.pth"
+
+generator:
+  scale: 2
+  num_in_ch: 3
+  num_out_ch: 3
+  num_feat: 64
+  num_block: 23
+  num_grow_ch: 32

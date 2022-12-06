@@ -1,0 +1,11 @@
+weights_file: "/workspace/VSR_ESP/outputs/train/2022-03-06/01-37-19/PSNR_cpkt/990000.pth"
+input_dir: "/workspace/Reds/train/LR/130_30/"
+merge: false
+
+generator:
+  scale: 2
+  num_in_ch: 3
+  num_out_ch: 3
+  num_feat: 64
+  num_block: 23
+  num_grow_ch: 32

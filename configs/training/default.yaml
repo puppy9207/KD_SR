@@ -1,0 +1,126 @@
+common:
+  project: Supremo_6block_noleaky
+  seed: 123
+  num_workers: 8
+  use_wandb: true
+
+dataset:
+  train_dir: "/dataset/Flickr2K"
+  scale: 2
+  batch_size: 8
+  patch_size : 256
+  yuv: false
+  deg:
+    add: true
+    sinc_prob: 0.1
+    sinc_prob2: 0.1
+    
+    blur_kernel_size: 21
+    kernel_list: [
+            "iso",
+            "aniso",
+            "generalized_iso",
+            "generalized_aniso",
+            "plateau_iso",
+            "plateau_aniso",
+        ]
+    kernel_prob: [0.45, 0.25, 0.12, 0.03, 0.12, 0.03]
+    blur_sigma: [0.2, 3]
+    betag_range: [0.5, 4]
+    betap_range: [1, 2]
+
+    kernel_list2: [
+            "iso",
+            "aniso",
+            "generalized_iso",
+            "generalized_aniso",
+            "plateau_iso",
+            "plateau_aniso",
+        ]
+    kernel_prob2: [0.45, 0.25, 0.12, 0.03, 0.12, 0.03]
+    blur_sigma2: [0.2, 1.5]
+    betag_range2: [0.5, 2]
+    betap_range2: [1, 1.5]
+
+    resize_prob: [0.2, 0.7, 0.1]
+    resize_range: [0.15, 1.5]
+    resize_prob2: [0.3, 0.4, 0.3]
+    resize_range2: [0.2, 0.3]
+
+    updown_type: ["up", "down", "keep"]
+    mode_list: ["area", "bilinear", "bicubic"]
+    noise_level1: 2
+    noise_level2: 25
+  sharpen:
+    add: true
+    weight: 0.25 # default 1
+    radius: 50
+    threshold: 10
+
+ddp:
+  distributed: false
+  nodes: 1
+  gpus: 0
+  nr: 0
+  rank: 0
+  world_size: 0
+
+models:
+  generator:
+    scale: 2
+    num_in_ch: 3
+    num_out_ch: 3
+    num_feat: 64
+    num_block: 12
+    num_grow_ch: 32
+
+  unet_discriminator:
+    num_in_ch: 3
+    num_feat: 32
+    num_D: 2
+
+  patchgan_discriminator:
+    input_nc: 3
+    ndf: 32
+    n_layers: 3
+    norm_type: spectral
+
+PSNR:
+  ckpt_dir: "PSNR_cpkt"
+  lr: 0.0002
+  n_iters: 10000001
+  resume: ""
+GAN:
+  discriminator: "Unet" #Unet, PatchGAN
+  ckpt_dir: "GAN_cpkt"
+  lr: 0.001
+  n_iters: 10000000
+  resume: "/workspace/BackgroundSR_ESP/outputs/train/2022-08-03/10-28-48/PSNR_cpkt/400000.pth" 
+  perceptual_opt:
+    type: PerceptualLoss
+    layer_weights:
+      # before relu
+      'conv1_2': 0.1
+      'conv2_2': 0.1
+      'conv3_4': 1
+      'conv4_4': 1
+      'conv5_4': 1
+    vgg_type: vgg19
+    use_input_norm: true
+    perceptual_weight: !!float 1.0
+    style_weight: 0
+    range_norm: false
+    criterion: l1
+  gan_opt:
+    real_label_val: 1.0
+    fake_label_val: 0.0
+    loss_weight: !!float 1e-1
+  frequency_opt:
+    loss_weight : 1.0
+    alpha : 1.0
+    patch_factor : 1
+    ave_spectrum : False
+    log_matrix : False
+    batch_matrix : False
+
+  

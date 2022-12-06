@@ -1,0 +1,13 @@
+weights_file: "/workspace/VSR_ESP/outputs/train/2022-02-24/17-02-06/PSNR_cpkt/800000.pth"
+video_file: "/workspace/VSR_ESP/examples/4K/clip01_crop.mp4"
+merge: true
+crf: 17
+with_metric: true
+
+generator:
+  scale: 2
+  num_in_ch: 3
+  num_out_ch: 3
+  num_feat: 64
+  num_block: 23
+  num_grow_ch: 32
